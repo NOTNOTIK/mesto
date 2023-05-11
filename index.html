@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mesto</title>
+    <link rel="stylesheet" href="./pages/index.css" />
+  </head>
+  <body class="page">
+    <header class="header">
+      <img src="./images/Vector.svg" alt="Упсики" class="header__logo" />
+    </header>
+    <main class="main">
+      <section class="profile">
+        <div class="profile__card">
+          <img
+            src="./images/alohadance-fire.gif"
+            alt="Здесь могла бы быть ваша аватарка:("
+            class="profile__avatar"/>
+          <div class="profile__info">
+            <div class="profile__name">
+              <h1 class="profile__title">AlohaDance</h1>
+              <button type="button" class="profile__button profile__button_type_edit">
+                <img 
+                src="./images/edit.svg" 
+                class="image image_type_edit" 
+                alt="тут ты короче можешь отредачить"/>
+
+              </button>
+            </div>
+            <p class="profile__text">СКРИН ТУШИИИ СКРИН ТУШИ</p>
+          </div>
+        </div>
+        <button type="button" class="profile__button profile__button_type_add">
+          <img
+            src="./images/add.svg"
+            class="image image_type_add"
+            alt="Добавить"/>
+        </button>
+      </section>
+      <section class="cards">
+        <template id="template">
+          <div class="cards__item">
+            <button class="cards__del" type="button"></button>
+            <img class="cards__img" id="myImg" src="URL" />
+            <span class="cards__info">
+              <h2 class="cards__title"></h2>
+              <button class="cards__like" type="button"></button>
+            </span>
+          </div>
+        </template>
+
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__title">© 2023 Idk, who I am</p>
+    </footer>
+    <div class="popup popup_type_edit">
+      <div class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form name="popup_form_submit" method="get" novalidate>
+          <input
+            type="text"
+            placeholder="Введите имя"
+            name="name"
+            class="popup__input popup__input_type_name"/>
+          <input
+            type="text"
+            placeholder="Введите род деятельности"
+            name="job"
+            class="popup__input popup__input_type_job"/>
+          <button type="submit" class="popup__submit">Сохранить</button>
+        </form>
+        <button type="button" class="popup__close" id="closeEdit"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_add">
+      <div class="popup__container">
+        <h2 class="popup__title">Новое место</h2>
+        <form name="popup_form_addCard" method="get" novalidate>
+          <input
+            type="text"
+            placeholder="Название"
+            name="title"
+            class="popup__input"/>
+          <input
+            type="url"
+            placeholder="Ссылка на картинку"
+            name="url"
+            class="popup__input"/>
+          <button type="submit" class="popup__submit">Создать</button>
+        </form>
+        <button type="button" class="popup__close" id="closeAdd"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_img">
+      <div class="popup__container_type_img">
+        <img class="popup__image" src="URL" alt="Изображение не загружено" />
+        <p class="popup__figcaption"></p>
+        <button type="button" class="popup__close" id="closeImg"></button>
+      </div>
+    </div>
+    <script src="./scripts/constants.js"></script>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>

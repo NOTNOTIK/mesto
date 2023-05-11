@@ -1,0 +1,18 @@
+.popup__container {
+  color: black;
+  width: 430px;
+  background: #ffffff;
+  border-radius: 10px;
+  position: relative;
+  transition: 0.5s;
+}
+.popup__container_type_img{
+  position: relative;
+  margin:0;
+}
+
+@media screen and (max-width: 720px) {
+  .popup__container {
+    width: 282px;
+  }
+}
