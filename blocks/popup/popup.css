@@ -2,7 +2,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, .5); 
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   top: 0;
   left: 0;
@@ -12,6 +12,6 @@
   justify-content: center;
   align-items: center;
 }
-.popup_type_img{
-  background: rgba(0, 0, 0, .9); 
+.popup_type_img {
+  background: rgba(0, 0, 0, 0.9);
 }
