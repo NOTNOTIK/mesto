@@ -6,7 +6,7 @@
   position: relative;
   transition: 0.5s;
 }
-.popup__container_type_img{
+.popup__img-container{
   position: relative;
   margin:0;
 }
