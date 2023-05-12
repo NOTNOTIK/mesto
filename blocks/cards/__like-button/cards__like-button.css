@@ -1,4 +1,4 @@
-.cards__like {
+.cards__like-button {
   background: none;
   border: 0;
   cursor: pointer;
@@ -7,10 +7,8 @@
   width: 22px;
   background-image: url(../../../images/Like.svg);
 }
-.cards__like_type_active{
-  background-image: url(../../../../images/Union.png);
-}
-.cards__like:hover {
+.cards__like-button:hover {
   opacity: 0.5;
   cursor: pointer;
+  transition: .3s ;
 }
