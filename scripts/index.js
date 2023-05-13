@@ -70,7 +70,7 @@ const submitFormAdd = (evt) => {
     src: urlInput.value,
   };
   formAdd.reset();
-  closePopupAdd();
+  closePopup(popupAdd);
   renderCard(dataCard);
 };
 
@@ -80,21 +80,13 @@ function openPopupEdit() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
 }
-function closePopupEdit() {
-  popupEdit.classList.toggle("popup_opened");
-}
-//попап добавления
-function closePopupAdd() {
-  popupAdd.classList.toggle("popup_opened");
-}
-// попап карточки
-function closePopupImg() {
-  popupImg.classList.toggle("popup_opened");
-}
+//функции открытия и закрытия попапа
 function openPopup(popupElement) {
   popupElement.classList.add('popup_opened');
 }
-
+function closePopup(popupElement) {
+  popupElement.classList.remove('popup_opened');
+}
 /*Это закрытия попапа, при нажатии на кнопку "Сохранить"(данные профиля отредактированы) */
 function formSubmitHandlerEdit(evt) {
   evt.preventDefault();
@@ -107,10 +99,10 @@ function formSubmitHandlerEdit(evt) {
 
 // Навешиваем на кнопки события
 buttonEdit.addEventListener("click", () => openPopupEdit());
-buttonCloseEdit.addEventListener("click", () => closePopupEdit());
+buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
 formEdit.addEventListener("submit", formSubmitHandlerEdit)
 buttonAdd.addEventListener("click", () => openPopup(popupAdd));
-buttonCloseAdd.addEventListener("click", () => closePopupAdd());
+buttonCloseAdd.addEventListener("click", () => closePopup(popupAdd));
 formAdd.addEventListener("submit", submitFormAdd);
-buttonCloseImg.addEventListener("click", () => closePopupImg());
+buttonCloseImg.addEventListener("click", () => closePopup(popupImg));
 
