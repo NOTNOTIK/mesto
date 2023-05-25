@@ -8,15 +8,20 @@
   text-align: center;
   color: #ffffff;
   height: 50px;
-  width: calc(100% - 72px);
+  width: 100%;
   border-radius: 2px;
   padding: 0;
   border: none;
-  margin: 0px 36px 37px;
   cursor: pointer;
+  margin-top: 18px;
 }
 .popup__submit:hover {
   opacity: 0.8;
+}
+.popup__submit_disabled{
+ background-color: white;
+ border: 1px solid grey;
+ color: grey;
 }
 @media screen and (max-width: 720px) {
   .popup__submit {

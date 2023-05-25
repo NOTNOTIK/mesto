@@ -1,5 +1,5 @@
-
 //все элементы с классом popup
+
 const popupElement = document.querySelectorAll(".popup");
 // Создаем попап редактирования профиля
 const popupEdit = document.querySelector(".popup_type_edit");
@@ -34,7 +34,7 @@ const createCard = (dataCard) => {
   const cardTitle = div.querySelector(".cards__title");
   cardTitle.textContent = dataCard.title;
   cardImage.src = dataCard.src;
-  cardImage.alt = `Изображение не загружено`
+  cardImage.alt = `Изображение не загружено`;
   div.querySelector(".cards__del").addEventListener("click", () => {
     div.remove();
   });
@@ -82,27 +82,64 @@ function openPopupEdit() {
 }
 //функции открытия и закрытия попапа
 function openPopup(popupElement) {
-  popupElement.classList.add('popup_opened');
+  popupElement.classList.add("popup_opened");
+  popupElement.addEventListener("click", closePopupOverlay);
 }
 function closePopup(popupElement) {
-  popupElement.classList.remove('popup_opened');
+  popupElement.classList.remove("popup_opened");
+  popupElement.removeEventListener("click", closePopupOverlay);
 }
+
 /*Это закрытия попапа, при нажатии на кнопку "Сохранить"(данные профиля отредактированы) */
 function formSubmitHandlerEdit(evt) {
   evt.preventDefault();
   profileName.textContent = `${nameInput.value}`;
   profileText.textContent = `${jobInput.value}`;
-  closePopupEdit();
+  closePopup(popupEdit);
 }
 
+
+popupEdit.addEventListener("click", (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(popupEdit);
+  }
+});
+popupAdd.addEventListener("click", (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(popupAdd);
+  }
+});
+popupImg.addEventListener("click", (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(popupImg);
+  }
+});
+document.addEventListener('keydown', function(evt) {
+  const key = evt.key; 
+  if (key === "Escape") {
+    closePopup(popupEdit);
+  }
+}); 
+document.addEventListener('keydown', function(evt) {
+  const key = evt.key; 
+  if (key === "Escape") {
+    closePopup(popupAdd);
+  }
+}); 
+document.addEventListener('keydown', function(evt) {
+  const key = evt.key; 
+  if (key === "Escape") {
+    closePopup(popupImg);
+  }
+}); 
 // Создаем карточку(Создаст столько карточек, сколько элементов в массиве)
 
 // Навешиваем на кнопки события
-buttonEdit.addEventListener("click", () => openPopupEdit());
+
+buttonEdit.addEventListener("click", () => openPopupEdit(popupAdd));
 buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
-formEdit.addEventListener("submit", formSubmitHandlerEdit)
+formEdit.addEventListener("submit", formSubmitHandlerEdit);
 buttonAdd.addEventListener("click", () => openPopup(popupAdd));
 buttonCloseAdd.addEventListener("click", () => closePopup(popupAdd));
 formAdd.addEventListener("submit", submitFormAdd);
 buttonCloseImg.addEventListener("click", () => closePopup(popupImg));
-
