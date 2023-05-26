@@ -1,6 +1,3 @@
-//все элементы с классом popup
-
-const popupElement = document.querySelectorAll(".popup");
 // Создаем попап редактирования профиля
 const popupEdit = document.querySelector(".popup_type_edit");
 const buttonEdit = document.querySelector(".profile__button_type_edit");
@@ -29,30 +26,31 @@ const template = document.querySelector("#template");
 
 // создаем карточки
 const createCard = (dataCard) => {
-  const div = template.content.querySelector(".cards__item").cloneNode(true);
-  const cardImage = div.querySelector(".cards__img");
-  const cardTitle = div.querySelector(".cards__title");
+  const newCard = template.content
+    .querySelector(".cards__item")
+    .cloneNode(true);
+  const cardImage = newCard.querySelector(".cards__img");
+  const cardTitle = newCard.querySelector(".cards__title");
   cardTitle.textContent = dataCard.title;
   cardImage.src = dataCard.src;
-  cardImage.alt = `Изображение не загружено`;
-  div.querySelector(".cards__del").addEventListener("click", () => {
-    div.remove();
+  cardImage.alt = dataCard.title;
+  newCard.querySelector(".cards__del").addEventListener("click", () => {
+    newCard.remove();
   });
-  const likeButton = div.querySelector(".cards__like-button");
+  const likeButton = newCard.querySelector(".cards__like-button");
   likeButton.addEventListener("click", function () {
     likeButton.classList.toggle("cards__like-button_active");
   });
 
-  cardImage.addEventListener("click", (evt) => {
-    evt.preventDefault();
+  cardImage.addEventListener("click", () => {
     popupImage.src = dataCard.src;
     figcaption.textContent = dataCard.title;
     openPopup(popupImg);
   });
-  return div;
+  return newCard;
 };
 
-const divList = initialCards.map((dataCard) => {
+const newCardsList = initialCards.map((dataCard) => {
   const cardElement = createCard(dataCard);
   return cardElement;
 });
@@ -60,7 +58,7 @@ const renderCard = (dataCard) => {
   cardsContainer.prepend(createCard(dataCard));
 };
 
-cardsContainer.append(...divList);
+cardsContainer.append(...newCardsList);
 
 // Добавление карточки пользователем через кнопку ADD
 const submitFormAdd = (evt) => {
@@ -70,8 +68,8 @@ const submitFormAdd = (evt) => {
     src: urlInput.value,
   };
   formAdd.reset();
-  closePopup(popupAdd);
   renderCard(dataCard);
+  closePopup(popupAdd);
 };
 
 //попап редактирования
@@ -80,65 +78,47 @@ function openPopupEdit() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileText.textContent;
 }
+const closePopupByOverlayClick = (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.currentTarget);
+    document.removeEventListener("click", closePopupByOverlayClick);
+  }
+};
+document.addEventListener("keydown", function (evt) {
+  
+  const popupList = document.querySelectorAll('.popup');
+  if (evt.key === "Escape") {
+    for (var i = 0; i < popupList.length; i++){
+      popupList[i].classList.remove('popup_opened')
+    }
+  }
+});
+
 //функции открытия и закрытия попапа
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
-  popupElement.addEventListener("click", closePopupOverlay);
+  popupElement.addEventListener("click", closePopupByOverlayClick);
+  popupElement.addEventListener("keydown", closePopupByEscape);
 }
 function closePopup(popupElement) {
   popupElement.classList.remove("popup_opened");
-  popupElement.removeEventListener("click", closePopupOverlay);
 }
 
 /*Это закрытия попапа, при нажатии на кнопку "Сохранить"(данные профиля отредактированы) */
-function formSubmitHandlerEdit(evt) {
+function formEditSubmitHandler(evt) {
   evt.preventDefault();
-  profileName.textContent = `${nameInput.value}`;
-  profileText.textContent = `${jobInput.value}`;
+  profileName.textContent = nameInput.value;
+  profileText.textContent = jobInput.value;
   closePopup(popupEdit);
 }
 
-
-popupEdit.addEventListener("click", (evt) => {
-  if (evt.target === evt.currentTarget) {
-    closePopup(popupEdit);
-  }
-});
-popupAdd.addEventListener("click", (evt) => {
-  if (evt.target === evt.currentTarget) {
-    closePopup(popupAdd);
-  }
-});
-popupImg.addEventListener("click", (evt) => {
-  if (evt.target === evt.currentTarget) {
-    closePopup(popupImg);
-  }
-});
-document.addEventListener('keydown', function(evt) {
-  const key = evt.key; 
-  if (key === "Escape") {
-    closePopup(popupEdit);
-  }
-}); 
-document.addEventListener('keydown', function(evt) {
-  const key = evt.key; 
-  if (key === "Escape") {
-    closePopup(popupAdd);
-  }
-}); 
-document.addEventListener('keydown', function(evt) {
-  const key = evt.key; 
-  if (key === "Escape") {
-    closePopup(popupImg);
-  }
-}); 
 // Создаем карточку(Создаст столько карточек, сколько элементов в массиве)
 
 // Навешиваем на кнопки события
 
 buttonEdit.addEventListener("click", () => openPopupEdit(popupAdd));
 buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
-formEdit.addEventListener("submit", formSubmitHandlerEdit);
+formEdit.addEventListener("submit", formEditSubmitHandler);
 buttonAdd.addEventListener("click", () => openPopup(popupAdd));
 buttonCloseAdd.addEventListener("click", () => closePopup(popupAdd));
 formAdd.addEventListener("submit", submitFormAdd);

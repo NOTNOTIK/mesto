@@ -9,7 +9,7 @@ function showError(inputElement, errorElement, config) {
     errorElement.textContent = inputElement.validationMessage;
   }
   
-  function disabledButton(buttonElement, config) {
+  function disableButton(buttonElement, config) {
     buttonElement.disabled = 'disabled';
     buttonElement.classList.add(config.inactiveButtonClass);
   }
@@ -22,7 +22,7 @@ function showError(inputElement, errorElement, config) {
   
   function toggleButtonState(buttonElement, isActive, config) {
     if (!isActive) {
-        disabledButton(buttonElement, config)
+        disableButton(buttonElement, config)
     } else {
         enableButton(buttonElement, config)
     }
@@ -31,7 +31,6 @@ function showError(inputElement, errorElement, config) {
   function checkInputValidity(inputElement, formElement, config) {
     const isInputValid = inputElement.validity.valid;
     const errorElement = formElement.querySelector(`#${inputElement.name}-error`); 
-    if (!errorElement) return;
   
     if (!isInputValid) {
         showError(inputElement, errorElement, config)
@@ -48,10 +47,9 @@ function showError(inputElement, errorElement, config) {
   
     formElement.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log('Форма успешно отправлена!');
     });
   
-    [...inputsList].forEach((inputItem) => {
+    inputsList.forEach((inputItem) => {
         inputItem.addEventListener('input', () => {
             checkInputValidity(inputItem, formElement, config);
             toggleButtonState(submitButtonElement, formElement.checkValidity(), config);
@@ -70,7 +68,7 @@ function showError(inputElement, errorElement, config) {
   
   
   
-  const configFormSelector = {
+  const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__submit',
@@ -78,4 +76,4 @@ function showError(inputElement, errorElement, config) {
     inputErrorClass: 'popup__input_type_error'
   }; 
   
-  enableValidation(configFormSelector);
+  enableValidation(validationConfig);
