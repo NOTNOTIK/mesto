@@ -61,6 +61,9 @@ const renderCard = (dataCard) => {
 cardsContainer.append(...newCardsList);
 
 // Добавление карточки пользователем через кнопку ADD
+
+const popupSubmit = document.querySelectorAll(".popup__submit");
+
 const submitFormAdd = (evt) => {
   evt.preventDefault();
   const dataCard = {
@@ -70,6 +73,7 @@ const submitFormAdd = (evt) => {
   formAdd.reset();
   renderCard(dataCard);
   closePopup(popupAdd);
+  toggleButtonState(submitButtonElement, config)
 };
 
 //попап редактирования
@@ -81,27 +85,23 @@ function openPopupEdit() {
 const closePopupByOverlayClick = (evt) => {
   if (evt.target === evt.currentTarget) {
     closePopup(evt.currentTarget);
-    document.removeEventListener("click", closePopupByOverlayClick);
   }
 };
-document.addEventListener("keydown", function (evt) {
-  
-  const popupList = document.querySelectorAll('.popup');
+const closePopupByEsc = (evt) => {
   if (evt.key === "Escape") {
-    for (var i = 0; i < popupList.length; i++){
-      popupList[i].classList.remove('popup_opened')
-    }
+    closePopup(document.querySelector(".popup_opened"));
   }
-});
-
+};
 //функции открытия и закрытия попапа
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
   popupElement.addEventListener("click", closePopupByOverlayClick);
-  popupElement.addEventListener("keydown", closePopupByEscape);
+  document.addEventListener("keydown", closePopupByEsc);
 }
 function closePopup(popupElement) {
   popupElement.classList.remove("popup_opened");
+  popupElement.removeEventListener("click", closePopupByOverlayClick);
+  document.removeEventListener("keydown", closePopupByEsc);
 }
 
 /*Это закрытия попапа, при нажатии на кнопку "Сохранить"(данные профиля отредактированы) */
@@ -115,7 +115,6 @@ function formEditSubmitHandler(evt) {
 // Создаем карточку(Создаст столько карточек, сколько элементов в массиве)
 
 // Навешиваем на кнопки события
-
 buttonEdit.addEventListener("click", () => openPopupEdit(popupAdd));
 buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
 formEdit.addEventListener("submit", formEditSubmitHandler);
