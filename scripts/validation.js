@@ -45,7 +45,7 @@ function setEventListener(formElement, config) {
     event.preventDefault();
   });
   formElement.addEventListener("reset", () => {
-    disableButton()
+    disableButton(submitButtonElement, config)
    });
   inputsList.forEach((inputItem) => {
     inputItem.addEventListener("input", () => {
