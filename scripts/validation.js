@@ -12,7 +12,6 @@ function disableButton(buttonElement, config) {
   buttonElement.disabled = true;
   buttonElement.classList.add(config.inactiveButtonClass);
 }
-
 function enableButton(buttonElement, config) {
   buttonElement.disabled = false;
   buttonElement.classList.remove(config.inactiveButtonClass);
@@ -25,7 +24,6 @@ function toggleButtonState(buttonElement, isActive, config) {
     enableButton(buttonElement, config);
   }
 }
-
 function checkInputValidity(inputElement, formElement, config) {
   const isInputValid = inputElement.validity.valid;
   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
@@ -46,7 +44,9 @@ function setEventListener(formElement, config) {
   formElement.addEventListener("submit", (event) => {
     event.preventDefault();
   });
-
+  formElement.addEventListener("reset", () => {
+    disableButton()
+   });
   inputsList.forEach((inputItem) => {
     inputItem.addEventListener("input", () => {
       checkInputValidity(inputItem, formElement, config);

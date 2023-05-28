@@ -62,8 +62,6 @@ cardsContainer.append(...newCardsList);
 
 // Добавление карточки пользователем через кнопку ADD
 
-const popupSubmit = document.querySelectorAll(".popup__submit");
-
 const submitFormAdd = (evt) => {
   evt.preventDefault();
   const dataCard = {
@@ -73,9 +71,7 @@ const submitFormAdd = (evt) => {
   formAdd.reset();
   renderCard(dataCard);
   closePopup(popupAdd);
-  toggleButtonState(submitButtonElement, config)
 };
-
 //попап редактирования
 function openPopupEdit() {
   openPopup(popupEdit);
