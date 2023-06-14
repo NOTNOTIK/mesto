@@ -1,5 +1,5 @@
 // Массив с карточками
-const initialCards = [
+const dataCard = [
     {
       title: "сухарики",
       src: "https://sun9-57.userapi.com/impg/vcmDnOoO0XlPESE2Bhm-JqqSRpYuCgb7nCI3uw/mE8jeQl8Wqk.jpg?size=454x454&quality=95&sign=21d49cd85f29de9dffc4e2e42efd349d&type=album",
