@@ -19,13 +19,13 @@ const urlInput = formAdd.querySelector('[name="url"]');
 const titleInput = formAdd.querySelector('[name="title"]');
 
 // Создаем попап открывания фотокарточки
-const popupImg = document.querySelector(".popup_type_image");
-const popupImage = document.querySelector(".popup__image");
-const figcaption = document.querySelector(".popup__figcaption");
+export const popupImg = document.querySelector(".popup_type_image");
+export const popupImage = document.querySelector(".popup__image");
+export const figcaption = document.querySelector(".popup__figcaption");
 const buttonCloseImg = document.querySelector("#closeImg");
 
 const container = document.querySelector(".cards");
-const templateCard = document.querySelector("#template");
+export const templateCard = document.querySelector("#template");
 
 /*class Card {
   constructor(title, src) {
@@ -84,14 +84,12 @@ const templateCard = document.querySelector("#template");
 dataCard.forEach((item) => {
   const card = new Card(item.title, item.src);
   const cardElement = card.generateCard();
-
   // Добавляем в DOM
   container.append(cardElement);
 });
 
 function createCard() {
    
- 
   const card = new Card(titleInput.value, urlInput.value);
   const cardElement = card.generateCard();
   container.prepend(cardElement);
@@ -121,7 +119,7 @@ const closePopupByEsc = (evt) => {
   }
 };
 //функции открытия и закрытия попапа
-function openPopup(popupElement) {
+export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
   popupElement.addEventListener("click", closePopupByOverlayClick);
   document.addEventListener("keydown", closePopupByEsc);
@@ -149,7 +147,7 @@ const selectors = {
   inactiveButtonClass: "popup__submit_disabled",
   inputErrorClass: "popup__input_type_error",
 };
-//const formpo = document.querySelector('[name="popup_form_addCard"]');
+
 const formValidatoringEdit = new FormValidator(selectors, formEdit );
 const formValidatoringAdd = new FormValidator(selectors, formAdd );
 
@@ -157,7 +155,7 @@ formValidatoringEdit.enableValidation();
 formValidatoringAdd.enableValidation();
 
 // Навешиваем на кнопки события
-buttonEdit.addEventListener("click", () => openPopupEdit(popupAdd));
+buttonEdit.addEventListener("click", () => openPopupEdit());
 buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
 formEdit.addEventListener("submit", formEditSubmitHandler);
 buttonAdd.addEventListener("click", () => openPopup(popupAdd));
