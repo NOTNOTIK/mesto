@@ -50,7 +50,7 @@ _setEventListener() {
   this._inputsList = this._formElement.querySelectorAll(this._selectors.inputSelector); 
   this._submitButtonElement = this._formElement.querySelector(this._selectors.submitButtonSelector); 
 
-  this._toggleButtonState(this._submitButtonElement, this); 
+  this._toggleButtonState(); 
   this._formElement.addEventListener('submit', (event) => { 
     event.preventDefault(); 
   }) 
@@ -76,7 +76,7 @@ _setEventListener() {
       this._toggleButtonState(this._submitButtonElement,  this);
     });
   })
-  
+
  }
 } 
 

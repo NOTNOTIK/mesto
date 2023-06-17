@@ -83,16 +83,12 @@ export const templateCard = document.querySelector("#template");
 
 dataCard.forEach((item) => {
   const card = new Card(item.title, item.src);
-  const cardElement = card.generateCard();
-  // Добавляем в DOM
-  container.append(cardElement);
+  container.append(card.generateCard());
 });
 
 function createCard() {
-   
   const card = new Card(titleInput.value, urlInput.value);
-  const cardElement = card.generateCard();
-  container.prepend(cardElement);
+  container.prepend(card.generateCard());
 }
 // Добавление карточки пользователем через кнопку ADD
 const submitFormAdd = (evt) => {
