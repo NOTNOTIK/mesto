@@ -1,4 +1,4 @@
-import { popupImage, figcaption, popupImg, openPopup } from "./index.js";
+import { popupImage, figcaption, popupImg, openPopup} from "./index.js";
 export class Card {
   constructor(title, src, templateCard) {
     this._templateCard = templateCard;
@@ -44,3 +44,4 @@ export class Card {
     this._likeButton.classList.toggle("cards__like-button_active"); 
   } 
 }
+
