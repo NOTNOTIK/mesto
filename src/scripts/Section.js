@@ -1,5 +1,5 @@
 export class Section {
-  constructor  ({dataCard, renderer}, selector ){
+  constructor  ({dataCard, renderer}){
 this._dataCard = dataCard;
 this._renderer = renderer;
 this._container = document.querySelector('cards');

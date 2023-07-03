@@ -22,14 +22,13 @@ export class PopupWithForm extends Popup{
       })
     }
     closeForm(){
-    this._form.reset();
     super.close() 
     }
     setEventListeners(){
       this._form.addEventListener('submit', (evt) => {
        evt.preventDefault();
        this._submit(this._getInputValues())
-       this._close();
+       this.closeForm();
       })
       super.setEventListeners();
     }

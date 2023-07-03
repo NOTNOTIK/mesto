@@ -63,38 +63,45 @@ export const templateCard = document.querySelector("#template");
 
 
 const popupFormCard = new PopupWithForm({
-  selector: 'popup_type_add',
-  submit: () => {
-    formValidatoringAdd._disableButton();
+  selector: '.popup_type_add',
+  submit: (item) => {
+    container.prepend(createCard(item));;
+    formValidatoringAdd._disableButton()
     popupFormCard.close();
   }
 })
-
+//Открытие попапа добавления карточки
 buttonAdd.addEventListener('click', () => {
-  openPopup(popupAdd)
-})
+  popupFormCard.open();
+});
 
-popupFormCard.setEventListeners();
+
+popupFormCard.setEventListeners(); 
 
 const userInfo = new UserInfo({
-  userName: ".profile__title",
-  userJob: ".profile__text"
-})
+  userNameSelector: '.profile__title',
+  userJobSelector: '.profile__text'
+});
 
 const popupEditProfile = new PopupWithForm({
-  selector: 'popup_type_edit',
+  selector: '.popup_type_edit', 
   submit: (item) => {
     userInfo.setUserInfo(item);
     popupEditProfile.close();
-  }
+  },
 });
-
-buttonEdit.addEventListener('click', () => {
+//открытие попапа информации о себе
+buttonEdit.addEventListener("click", () => {
   popupEditProfile.setInputValues(userInfo.getUserInfo());
   formValidatoringEdit._disableButton();
-  openPopup(popupEdit)
-})
+  popupEditProfile.open();
+});
+
+
+
+
 popupEditProfile.setEventListeners();
+
 
 // Добавление карточки пользователем через кнопку ADD
 const submitFormAdd = (evt) => {
@@ -105,11 +112,6 @@ const submitFormAdd = (evt) => {
 };
 
 //попап редактирования
-/*function openPopupEdit() {
-  openPopup(popupEdit)
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileText.textContent;
-}*/
 const closePopupByOverlayClick = (evt) => {
   if (evt.target === evt.currentTarget) {
     closePopup(evt.currentTarget);
@@ -133,13 +135,6 @@ function closePopup(popupElement) {
 }
 
 /*Это закрытия попапа, при нажатии на кнопку "Сохранить"(данные профиля отредактированы) */
-function formEditSubmitHandler(evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileText.textContent = jobInput.value;
-  closePopup(popupEdit);
-}
-
 
 
 const selectors = {
@@ -177,8 +172,7 @@ section.renderItems();
 
 // Навешиваем на кнопки события
 
-buttonCloseEdit.addEventListener("click", () => closePopup(popupEdit));
-formEdit.addEventListener("submit", formEditSubmitHandler);
+buttonCloseEdit.addEventListener("click", () =>  popupEditProfile.close());
 buttonCloseAdd.addEventListener("click", () => closePopup(popupAdd));
 formAdd.addEventListener("submit", submitFormAdd);
 buttonCloseImg.addEventListener("click", () => closePopup(popupImg));
