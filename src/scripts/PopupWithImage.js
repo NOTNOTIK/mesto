@@ -1,15 +1,15 @@
 import { Popup } from "./Popup.js"
-
+import {popupImage, figcaption} from './index.js'
 export class PopupWithImage extends Popup {
-    constructor({selector, image, text}){
+    constructor({selector,  popupImage, figcaption}){
         super({selector});
-        this._image = image;
-        this._text = text;
+        this._image =  popupImage;
+        this._text = figcaption;
     }
     open(data){
-     this._image.src = data.src;
-     this._image.alt = data.src;
-     this._text.textContent = data.title;
+    popupImage.src = data.src;
+    // this._image = data.src;
+     figcaption.textContent = data.title;
      super.open();
     }
 }

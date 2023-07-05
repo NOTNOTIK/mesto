@@ -20,21 +20,21 @@ export class FormValidator {
     this._errorElement.textContent = inputElement.validationMessage;
   } 
 
-  _disableButton(){ 
+  disableButton(){ 
     this._submitButtonElement.disabled = true;
     this._submitButtonElement.classList.add(this._selectors.inactiveButtonClass);
   } 
 
-  _enableButton(){
+  enableButton(){
     this._submitButtonElement.disabled = false;
     this._submitButtonElement.classList.remove(this._selectors.inactiveButtonClass);
   } 
 
   _toggleButtonState() { 
     if (!this._formElement.checkValidity()){
-      this._disableButton(); 
+      this.disableButton(); 
     } else { 
-      this._enableButton();  
+      this.enableButton();  
     }  
   } 
 
@@ -55,7 +55,7 @@ _setEventListener() {
     event.preventDefault(); 
   })
   this._formElement.addEventListener('reset', () => { 
-  this._disableButton(this._submitButtonElement, this); 
+  this.disableButton(this._submitButtonElement, this); 
   }) 
 
   this._inputsList.forEach((inputItem) => { 

@@ -1,4 +1,5 @@
-import { popupImage, figcaption, popupImg, openPopup} from "./index.js";
+import {popupImage, figcaption} from './constants.js'
+import{handleCardClick} from './index.js'
 export class Card {
   constructor(title, src, templateCard) {
     this._templateCard = templateCard;
@@ -21,13 +22,12 @@ export class Card {
     return this._element;
   }
   _setEventListeners() {
-    this._cardImage = this._element.querySelector(".cards__img").addEventListener("click", () => {
-        this._handlePopup();
-      });
+    this._cardImage  = this._element.querySelector(".cards__img").addEventListener("click", () => {
+      handleCardClick({Image: this._src, text: this._title})
+    });
 
       this._likeButton = this._element.querySelector(".cards__like-button")
       this._likeButton.addEventListener("click", () => { this._handleLike() });
-      
     this._element.querySelector(".cards__del").addEventListener("click", (this._removeCard.bind(this)));
   }
   _removeCard(){
@@ -38,7 +38,6 @@ export class Card {
     popupImage.alt = this._title;
     popupImage.src = this._src;
     figcaption.textContent = this._title;
-    openPopup(popupImg);
   }
   _handleLike(){ 
     this._likeButton.classList.toggle("cards__like-button_active"); 

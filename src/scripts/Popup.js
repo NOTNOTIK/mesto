@@ -15,7 +15,7 @@ export class Popup{
         document.removeEventListener("keydown", this._closePopupByEsc);
         this._popupElement.removeEventListener("click",this.setEventListeners())
     }
-    _closePopupByOverlayClick = (evt) => {
+   _closePopupByOverlayClick = (evt) => {
         if (evt.target === evt.currentTarget) {
           this.close(evt.currentTarget);
         }
