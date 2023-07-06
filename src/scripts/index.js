@@ -11,11 +11,11 @@ import {dataCard} from './constants.js';
 //import Popup from "./Popup.js";
 // Создаем попап редактирования профиля
 const buttonEdit = document.querySelector(".profile__button_type_edit");
-const buttonCloseEdit = document.querySelector("#closeEdit");
+
 const formEdit = document.querySelector('[name="popup_form_submit"]');
 const formAdd = document.querySelector('[name="popup_form_addCard"]');
 // Создаем попап добавлении карточки
-const popupAdd = document.querySelector(".popup_type_add");
+
 const buttonAdd = document.querySelector(".profile__button_type_add");
 //const buttonCloseAdd = document.querySelector("#closeAdd");
 const urlInput = formAdd.querySelector('[name="url"]');
@@ -33,15 +33,13 @@ const container = document.querySelector(".cards");
 export const templateCard = document.querySelector("#template");
 
 const popupWithImage = new PopupWithImage({
-  selector: '.popup_type_image',
-  popupImage: cardImage,
-  figcaption: cardTitle
-
+  selector: '.popup_type_image'
 })
 
 
 export function handleCardClick(data) { 
   popupWithImage.open(data);
+  console.log(data)
 };
 
 popupWithImage.setEventListeners();
@@ -108,9 +106,11 @@ formValidatoringEdit.enableValidation();
 formValidatoringAdd.enableValidation();
 
 dataCard.forEach((item) => {
-  const card = new Card(item.title, item.src);
+  const card = new Card(item.title, item.src, )
   container.append(card.generateCard());
-});
+}
+) 
+
 
 function createCard() {
   const card = new Card(titleInput.value, urlInput.value);
@@ -125,8 +125,4 @@ const section = new Section(
     }
   }, container);
 section.renderItems();
-
-// Навешиваем на кнопки события
-
-buttonCloseEdit.addEventListener("click", () =>  popupEditProfile.close());
 
