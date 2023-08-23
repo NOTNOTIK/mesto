@@ -34,11 +34,7 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
-  _handlePopup() {
-    popupImage.alt = this._title;
-    popupImage.src = this._src;
-    figcaption.textContent = this._title;
-  }
+
   _handleLike(){ 
     this._likeButton.classList.toggle("cards__like-button_active"); 
   } 
