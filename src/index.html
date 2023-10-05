@@ -14,13 +14,15 @@
     <main class="main">
       <section class="profile">
         <div class="profile__card">
+        <div class="avatar">
           <img
-            src="<%=require('./images/alohadance-fire.gif')%>"
+            src=""
             alt="Здесь могла бы быть ваша аватарка:("
             class="profile__avatar"/>
+          </div>  
           <div class="profile__info">
             <div class="profile__name">
-              <h1 class="profile__title">AlohaDance</h1>
+              <h1 class="profile__title"></h1>
               <button
                 type="button"
                 class="profile__button profile__button_type_edit">
@@ -30,7 +32,7 @@
                   alt="тут ты короче можешь отредачить"/>
               </button>
             </div>
-            <p class="profile__text">СКРИН ТУШИИИ СКРИН ТУШИ</p>
+            <p class="profile__text"></p>
           </div>
         </div>
         <button type="button" class="profile__button profile__button_type_add">
@@ -46,7 +48,7 @@
     </main>
     <template id="template">
       <div class="cards__item">
-        <button class="cards__del" type="button"></button>
+        <button class="cards__del" type="button" name="buttonDelete"></button>
         <img class="cards__img" id="myImg" src="#" alt="#"/>
         <span class="cards__info">
           <h2 class="cards__title"></h2>
@@ -81,12 +83,12 @@
               <input
                 type="text"
                 placeholder="Введите род деятельности"
-                name="job"
+                name="about"
                 class="popup__input popup__input_type_job"
                 minlength="2"
                 maxlength="200"
                 required/>
-              <span class="error" id="job-error"></span>
+              <span class="error" id="about-error"></span>
             </label>
             <button type="submit" class="popup__submit">Сохранить</button>
           </fieldset>
@@ -125,12 +127,61 @@
                 required/>
               <span class="error" id="url-error"></span>
             </label>
-            <button type="submit" class="popup__submit">Создать</button>
+            <button type="submit" class="popup__submit" name="submitAdd">Создать</button>
           </fieldset>
         </form>
         <button type="button" class="popup__close" id="closeAdd"></button>
       </div>
     </div>
+
+
+    <div class="popup popup_type_ava">
+      <div class="popup__container">
+        <h2 class="popup__title">Сменить аватар</h2>
+        <form
+          class="popup__form"
+          name="popup_form_Avatar"
+          method="get"
+          novalidate>
+          <fieldset class="popup__set">
+            <label>
+              <input
+                type="url"
+                placeholder="Ссылка на картинку"
+                name="avatar"
+                class="popup__input"
+                autocomplete="off"
+                required/>
+              <span class="error" id="avatar-error"></span>
+            </label>
+            <button type="submit" class="popup__submit" name="submitAva">Сменить</button>
+          </fieldset>
+        </form>
+        <button type="button" class="popup__close" id="closeAdd"></button>
+      </div>
+    </div>
+
+
+    <div class="popup popup_type_del">
+      <div class="popup__container">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <form
+          class="popup__form"
+          name="popup_form_del"
+          method="get"
+          novalidate>
+          <fieldset class="popup__set">
+            <label>
+              <span class="error" id="avatar-error"></span>
+            </label>
+            <button type="submit" class="popup__submit" name="submitDel">Удалить</button>
+          </fieldset>
+        </form>
+        <button type="button" class="popup__close" id="closeDel"></button>
+      </div>
+    </div>
+
+
     <div class="popup popup_type_image">
       <div class="popup__img-container">
         <img class="popup__image" src="#" alt="Изображение не загружено" />
