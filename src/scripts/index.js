@@ -25,18 +25,23 @@ export const api = new Api(apiConfig);
 
 
 
+
+
+//
+
+const allCards = await api.getAllTodos();
+const getUserApi = await api.getUserApi();
+
 api.getAllTodos()
 .then((data) => {
  
   data.forEach((item) => {
-    const card = new Card(item.name,  item.link)
+    const card = new Card(item.name,  item.link, item._id)
+    console.log(item._id)
     container.append(card.generateCard());
   }
   )
 })
-
-
-
 
 
 
@@ -96,7 +101,7 @@ api.getUserApi({
   avatar: userInfo.avatar,
   name: userInfo.name,
   about: userInfo.about,
-  id: userInfo.id
+  _id: userInfo._id
   
 }).then((element) =>{
   userInfo.setUserInfo(element);

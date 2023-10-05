@@ -3,12 +3,12 @@ import {handleCardClick} from './index.js'
 //import { handleDeleteClick } from './index.js';
 
 export class Card {
-  constructor(title, src, templateCard, api, id) {
+  constructor(title, src, templateCard, api, _id) {
     this._templateCard = templateCard;
     this._title = title;
     this._src = src;
     this._api = api;
-    this._id = id
+    this._id = _id
     
   }
   _getTemplate() {
@@ -36,7 +36,7 @@ export class Card {
     });*/
       this._likeButton = this._element.querySelector(".cards__like-button")
       this._likeButton.addEventListener("click", () => { this._handleLike()});
-      console.log(this._id)
+      
 
       if( this._owner === this.id){
         this._cardDelete = this._element.querySelector(".cards__del").addEventListener("click" , () => {
