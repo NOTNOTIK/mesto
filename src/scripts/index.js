@@ -22,26 +22,60 @@ const apiConfig = {
 }
 
 export const api = new Api(apiConfig);
+export const allCards = await api.getAllTodos();
+export const getUserApi = await api.getUserApi();
 
+ let ownerId = 0;
+ let userId = 0;
 
-
-
-
-//
-
-const allCards = await api.getAllTodos();
-const getUserApi = await api.getUserApi();
-
-api.getAllTodos()
+/*Promise.all([ 
+  api.getUserApi()
+  .then((data) =>{
+   userId = data._id
+    userInfo.setUserInfo(data);
+    userInfo.setAvatar(data);
+  
+  
+  }),
+  api.getAllTodos()
 .then((data) => {
- 
-  data.forEach((item) => {
-    const card = new Card(item.name,  item.link, item._id)
-    console.log(item._id)
+   
+  data.forEach((item, data) => {
+    ownerId = item._id
+    userId = data._id
+    userInfo.setUserInfo(data);
+    userInfo.setAvatar(data);
+    const card = new Card(item.name,  item.link, ownerId, userId)
+    console.log(userId)
     container.append(card.generateCard());
   }
   )
+})])
+.then(([data]) => {
+ 
+  
+})*/
+Promise.all([api.getUserApi(), api.getAllTodos()])
+.then(([item, data]) => {
+ 
+  userId = item._id
+  userInfo.setUserInfo(item);
+  userInfo.setAvatar(item);
+  data.forEach((item) => {
+    ownerId = item._id
+    const card = new Card(item.name,  item.link, ownerId, userId)
+    console.log(ownerId)
+    container.append(card.generateCard());
+  }
+  )
+  console.log(userId)
+ 
 })
+
+
+
+
+
 
 
 
@@ -85,7 +119,7 @@ const popupWithImage = new PopupWithImage({
 
 export function handleCardClick(data) { 
   popupWithImage.open(data);
-  console.log(data)
+  console.log(ownerId)
 };
 
 popupWithImage.setEventListeners();
@@ -97,7 +131,7 @@ const userInfo = new UserInfo({
 });
 
 
-api.getUserApi({
+/*api.getUserApi({
   avatar: userInfo.avatar,
   name: userInfo.name,
   about: userInfo.about,
@@ -107,7 +141,7 @@ api.getUserApi({
   userInfo.setUserInfo(element);
   userInfo.setAvatar(element);
   console.log(element)
-})
+})*/
 
 
 const popupEditProfile = new PopupWithForm({
