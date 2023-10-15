@@ -44,7 +44,7 @@ setUserAvatar(data){
 
 }
 deleteCard(data){
-  return fetch(`${this._url}/cards/cardId`, {
+  return fetch(`${this._url}/cards/${cardId}`, {
     headers: this._headers,
     method: 'DELETE',
     body: JSON.stringify(data)

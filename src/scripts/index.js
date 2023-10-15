@@ -4,8 +4,11 @@ import {PopupWithImage} from './PopupWithImage.js'
 import { UserInfo } from './UserInfo.js';
 import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
+import { Section} from "./Section.js";
 
 import Api from './api.js';
+
+import PopupDelete from './PopupDelete';
 
 
 
@@ -14,9 +17,9 @@ import Api from './api.js';
 
 
 const apiConfig = {
-  url: 'https://mesto.nomoreparties.co/v1/cohort-74',
+  url: 'https://mesto.nomoreparties.co/v1/cohort-77',
   headers : {
-    authorization: '963e3d78-7c5d-4350-b514-b363b7d809d2',
+    authorization: '6eb9c099-3edc-4778-8a42-37b8233a5aed',
     'Content-Type': 'application/json',
   }
 }
@@ -27,58 +30,26 @@ export const getUserApi = await api.getUserApi();
 
  let ownerId = 0;
  let userId = 0;
+ let cardId = 0;
 
-/*Promise.all([ 
-  api.getUserApi()
-  .then((data) =>{
-   userId = data._id
-    userInfo.setUserInfo(data);
-    userInfo.setAvatar(data);
-  
-  
-  }),
-  api.getAllTodos()
-.then((data) => {
+
+
+ Promise.all([api.getUserApi(), api.getAllTodos()])
+ .then(([item, data]) => {
+   userId = item._id
+   userInfo.setUserInfo(item);
+   userInfo.setAvatar(item);
+   data.forEach((data) => {
+     ownerId = data.owner._id
+     cardId = data._id
+     const card = new Card(data.name,  data.link, ownerId, userId, cardId, )
+     cards.append(card.generateCard());
+   }
+   )
    
-  data.forEach((item, data) => {
-    ownerId = item._id
-    userId = data._id
-    userInfo.setUserInfo(data);
-    userInfo.setAvatar(data);
-    const card = new Card(item.name,  item.link, ownerId, userId)
-    console.log(userId)
-    container.append(card.generateCard());
-  }
-  )
-})])
-.then(([data]) => {
+ })
  
-  
-})*/
-Promise.all([api.getUserApi(), api.getAllTodos()])
-.then(([item, data]) => {
  
-  userId = item._id
-  userInfo.setUserInfo(item);
-  userInfo.setAvatar(item);
-  data.forEach((item) => {
-    ownerId = item._id
-    const card = new Card(item.name,  item.link, ownerId, userId)
-    console.log(ownerId)
-    container.append(card.generateCard());
-  }
-  )
-  console.log(userId)
- 
-})
-
-
-
-
-
-
-
-
 
 
 
@@ -106,7 +77,7 @@ export const popupImage = document.querySelector(".popup__image");
 export const figcaption = document.querySelector(".popup__figcaption");
 //const buttonCloseImg = document.querySelector("#closeImg");
 
-const container = document.querySelector(".cards");
+const cards = document.querySelector(".cards");
 export const templateCard = document.querySelector("#template");
 const popupSubmitButton = document.querySelector('[name="submitAdd"]')
 export const inputName = document.querySelector('[name="name"]')
@@ -131,17 +102,6 @@ const userInfo = new UserInfo({
 });
 
 
-/*api.getUserApi({
-  avatar: userInfo.avatar,
-  name: userInfo.name,
-  about: userInfo.about,
-  _id: userInfo._id
-  
-}).then((element) =>{
-  userInfo.setUserInfo(element);
-  userInfo.setAvatar(element);
-  console.log(element)
-})*/
 
 
 const popupEditProfile = new PopupWithForm({
@@ -205,8 +165,9 @@ formAdd.addEventListener('submit', () =>{
   api.createCard({
     name: titleInput.value,
     link: urlInput.value,
-  }).then((data) => {
+  }).then ((data) => {
     createCard(data)
+    
   })
   .finally(() =>{
     popupSubmitButton.textContent = 'Создать';
@@ -260,23 +221,22 @@ popupFormAvatar.setEventListeners();
 
 //
 
+export const submitDelete = document.querySelector('[name="submitDel"]')
 
-/*const popupDel = new  PopupWithForm({
+submitDelete.addEventListener('click', () =>{
+  popupDelete.close();
+})
+
+const popupDelete = new PopupDelete({
   selector: '.popup_type_del',
-  submit: () => {
-    formValidatoringDel.enableButton();
-    popupDel.close();
-  },
-  
-  })
+})
 
 
-popupDel.setEventListeners(); 
 
-export function handleDeleteClick() { 
-  popupDel.open();
-  
-};*/
+export function handleDeleteClick () {
+  popupDelete.open();
+}
+
 
 
 // Добавление карточки пользователем через кнопку ADD
@@ -302,8 +262,12 @@ formValidatoringDel.enableValidation();
 
 
 
-function createCard() {
-  const card = new Card(titleInput.value, urlInput.value);
-  container.prepend(card.generateCard());
+function createCard(data) {
+  const card = new Card( data.name, data.link, data.owner, userId, cardId, popupDelete.open,);
+  cards.prepend(card.generateCard());
 
 }
+
+
+
+//загружаем карточки
