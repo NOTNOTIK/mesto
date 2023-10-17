@@ -12,3 +12,7 @@
   cursor: pointer;
   transition: .3s;
 }
+.cards__like-number{
+  color: black;
+  text-align: center;
+}

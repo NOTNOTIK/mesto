@@ -1,5 +1,3 @@
-
-
 export class FormValidator { 
 
   constructor(selectors, formElement) { 
@@ -79,5 +77,3 @@ _setEventListener() {
 
  }
 } 
-
- 

@@ -4,14 +4,10 @@ import {PopupWithImage} from './PopupWithImage.js'
 import { UserInfo } from './UserInfo.js';
 import { FormValidator } from "./FormValidator.js";
 import { Card } from "./Card.js";
-import { Section} from "./Section.js";
 
 import Api from './api.js';
 
 import PopupDelete from './PopupDelete';
-
-
-
 
 
 
@@ -31,8 +27,13 @@ export const getUserApi = await api.getUserApi();
  let ownerId = 0;
  let userId = 0;
  let cardId = 0;
-
-
+ 
+ 
+ let likes = []
+ const popupDelete = new PopupDelete({
+  selector: '.popup_type_del',
+ })
+ popupDelete.setEventListeners()
 
  Promise.all([api.getUserApi(), api.getAllTodos()])
  .then(([item, data]) => {
@@ -42,12 +43,44 @@ export const getUserApi = await api.getUserApi();
    data.forEach((data) => {
      ownerId = data.owner._id
      cardId = data._id
-     const card = new Card(data.name,  data.link, ownerId, userId, cardId, )
+     likes = data.likes
+     const card = new Card(data.name,  data.link,  ownerId, userId, cardId, likes, {
+      handleDeleteClick: () => {
+    
+        popupDelete.open();
+        popupDelete.submitCallback(() => {
+          api.deleteCard(card.getId())
+          .then(() => {
+          card.removeCard();
+          popupDelete.close();
+      })
+      .catch((err) => {
+        console.log(`deleteCard - ошибка: ${err}`);
+    })
+        })
+        
+     },
+     handleSetLike: () => {
+      api.setLike(card.getId())
+          .then((cardId) => {
+              card.makeLike(cardId);
+              console.log()
+          })
+          .catch((err) => {
+              console.log(`makeLike - ошибка: ${err}`);
+          })
+  },
+
+
+      })
+
      cards.append(card.generateCard());
+
    }
    )
    
  })
+
  
  
 
@@ -221,7 +254,7 @@ popupFormAvatar.setEventListeners();
 
 //
 
-export const submitDelete = document.querySelector('[name="submitDel"]')
+/*export const submitDelete = document.querySelector('[name="submitDel"]')
 
 submitDelete.addEventListener('click', () =>{
   popupDelete.close();
@@ -235,7 +268,7 @@ const popupDelete = new PopupDelete({
 
 export function handleDeleteClick () {
   popupDelete.open();
-}
+}*/
 
 
 
@@ -263,11 +296,7 @@ formValidatoringDel.enableValidation();
 
 
 function createCard(data) {
-  const card = new Card( data.name, data.link, data.owner, userId, cardId, popupDelete.open,);
+  const card = new Card(data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike);
   cards.prepend(card.generateCard());
 
 }
-
-
-
-//загружаем карточки

@@ -43,15 +43,21 @@ setUserAvatar(data){
 }).then(this._getResponse)
 
 }
-deleteCard(data){
+deleteCard(cardId){
   return fetch(`${this._url}/cards/${cardId}`, {
     headers: this._headers,
-    method: 'DELETE',
-    body: JSON.stringify(data)
+    method: 'DELETE'
   }).then(this._getResponse)
 }
 
+setLike(cardId){
+  return fetch(`${this._url}/cards/${cardId}/likes`, {
+    headers: this._headers,
+    method: 'PUT',
+  }).then(this._getResponse)
 
+  
+}
 
 
 }
