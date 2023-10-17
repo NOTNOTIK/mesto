@@ -8,6 +8,7 @@ import { Card } from "./Card.js";
 import Api from './api.js';
 
 import PopupDelete from './PopupDelete';
+import { handleDeleteClick } from './handleDeleteClick';
 
 
 
@@ -34,6 +35,9 @@ export const getUserApi = await api.getUserApi();
   selector: '.popup_type_del',
  })
  popupDelete.setEventListeners()
+
+
+
 
  Promise.all([api.getUserApi(), api.getAllTodos()])
  .then(([item, data]) => {
@@ -64,22 +68,23 @@ export const getUserApi = await api.getUserApi();
       api.setLike(card.getId())
           .then((cardId) => {
               card.makeLike(cardId);
-              console.log()
+              console.log(likes);
+              
           })
           .catch((err) => {
               console.log(`makeLike - ошибка: ${err}`);
           })
   },
+  
   handleDeleteLike: () => {
     api.deleteLike(card.getId())
     .then((cardId) =>{
       card.makeLike(cardId);
     }) 
     .catch((err) => {
-      console.log(`makeLike - ошибка: ${err}`);
+      console.log(`deleteLike - ошибка: ${err}`);
   })
   }
-
 
       })
 
@@ -88,10 +93,9 @@ export const getUserApi = await api.getUserApi();
    }
    )
    
- })
+   })
 
- 
- 
+   
 
 
 
@@ -209,7 +213,6 @@ formAdd.addEventListener('submit', () =>{
     link: urlInput.value,
   }).then ((data) => {
     createCard(data)
-    
   })
   .finally(() =>{
     popupSubmitButton.textContent = 'Создать';
@@ -302,10 +305,10 @@ formValidatoringAva.enableValidation();
 formValidatoringDel.enableValidation();
 
 
-
-
+handleSetLike()
+handleDeleteLike()
 function createCard(data) {
-  const card = new Card(data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike);
+  const card = new Card( data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike, handleDeleteLike );
   cards.prepend(card.generateCard());
 
 }

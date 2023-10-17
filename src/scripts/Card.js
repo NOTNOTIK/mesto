@@ -81,6 +81,7 @@ _checkLikedState(){
   makeLike  ()  {
     this._likeNumber.textContent = this._likes.length;
     this._likeButton.classList.toggle('cards__like-button_active');
+    return this._likes.length
 }
 }
 
