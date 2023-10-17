@@ -70,6 +70,15 @@ export const getUserApi = await api.getUserApi();
               console.log(`makeLike - ошибка: ${err}`);
           })
   },
+  handleDeleteLike: () => {
+    api.deleteLike(card.getId())
+    .then((cardId) =>{
+      card.makeLike(cardId);
+    }) 
+    .catch((err) => {
+      console.log(`makeLike - ошибка: ${err}`);
+  })
+  }
 
 
       })

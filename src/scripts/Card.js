@@ -5,7 +5,7 @@ import {handleCardClick} from './index.js';
 
 
 export class Card {
-  constructor(  title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleSetLike} ) {
+  constructor(  title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleSetLike, handleDeleteLike} ) {
     this._title = title;
     this._src = src;
     this._ownerId = ownerId;
@@ -14,6 +14,7 @@ export class Card {
     this._likes = likes;
     this._handleDeleteClick = handleDeleteClick;
    this._handleSetLike = handleSetLike;
+   this._handleDeleteLike = handleDeleteLike;
   
   }
   _getTemplate() {
@@ -43,14 +44,22 @@ export class Card {
   _setEventListeners() {
     this._cardImage  = this._element.querySelector(".cards__img").addEventListener("click", () => {
       handleCardClick({image: this._src, text: this._title})
-    });    
-      this._likeButton = this._element.querySelector(".cards__like-button")
-      this._likeButton.addEventListener("click", () => {  this._handleSetLike()});
-     
-      this._element.querySelector('.cards__del').addEventListener("click", () => {
+    });  
+
+    this._likeButton = this._element.querySelector(".cards__like-button")
+     // this._likeButton.addEventListener("click", () => {  this._handleSetLike()});
+     this._likeButton.addEventListener('click', () => {
+      if(this._likeButton.classList.contains('cards__like-button_active')){
+        this._handleDeleteLike()
+      }else{
+        this._handleSetLike()
+      }
+     })
+
+    this._element.querySelector('.cards__del').addEventListener("click", () => {
       this._handleDeleteClick()
       })
-      
+    this._checkLikedState()
     }
     
       getId() {
@@ -60,6 +69,14 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
+_checkLikedState(){
+  this._likes.forEach((like) => {
+    if(like._id === this._userId){
+      this._likeButton.classList.add('cards__like-button_active');
+    }
+  })
+}
+
  
   makeLike  ()  {
     this._likeNumber.textContent = this._likes.length;

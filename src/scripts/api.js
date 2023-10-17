@@ -58,7 +58,12 @@ setLike(cardId){
 
   
 }
-
+deleteLike(cardId) {
+  return fetch(`${this._url}/cards/${cardId}/likes`, {
+    headers: this._headers,
+    method: 'DELETE',
+  }).then(this._getResponse)
+}
 
 }
 
