@@ -37,17 +37,25 @@ export const api = new Api(apiConfig);
  popupDelete.setEventListeners()
 
 
+ 
 
 
+ 
+ 
  Promise.all([api.getUserApi(), api.getAllTodos()])
  .then(([item, data]) => {
-   userId = item._id
-   userInfo.setUserInfo(item);
-   userInfo.setAvatar(item);
+  userId = item._id
+  userInfo.setUserInfo(item);
+  userInfo.setAvatar(item);
+ 
+  
    data.forEach((data) => {
      ownerId = data.owner._id
      cardId = data._id
      likes = data.likes
+     
+     
+     
      const card = new Card(data.name,  data.link,  ownerId, userId, cardId, likes, {
       handleDeleteClick: () => {
     
@@ -98,8 +106,77 @@ export const api = new Api(apiConfig);
    )
    
    })
-
    
+ 
+
+
+/*function createCard(data){
+ 
+    
+  
+  data.forEach((data) => {
+    ownerId = data.owner._id
+    cardId = data._id
+    likes = data.likes
+    const card = new Card(data.name,  data.link,  ownerId, userId, cardId, likes, {
+     handleDeleteClick: () => {
+   
+       popupDelete.open();
+       popupDelete.submitCallback(() => {
+         api.deleteCard(card.getId())
+         .then(() => {
+         card.removeCard();
+         popupDelete.close();
+     })
+     .catch((err) => {
+       console.log(`deleteCard - ошибка: ${err}`);
+   })
+       })
+       
+    },
+    handleSetLike: () => {
+     api.setLike(card.getId())
+         .then((cardId) => {
+             card.makeLike(cardId);
+             console.log(likes);
+             
+         })
+         .catch((err) => {
+             console.log(`makeLike - ошибка: ${err}`);
+         })
+ },
+ 
+ handleDeleteLike: () => {
+   api.deleteLike(card.getId())
+   .then((cardId) =>{
+     card.makeLike(cardId);
+     console.log(card.getId())
+   }) 
+   .catch((err) => {
+     console.log(`deleteLike - ошибка: ${err}`);
+ })
+ }, 
+ handleCardClick: (data) => {
+   popupWithImage.open(data);
+ }
+
+     })
+
+   cards.append(card.generateCard());
+
+  }
+  )
+cards.append(card.generateCard());
+}
+
+/*const cardsContainer = new Section({
+  renderer: (item) => {
+      cardsContainer.addItem(createCard(item))
+  },
+}, cards);*/
+
+
+ 
 
 
 
@@ -114,7 +191,7 @@ const formDel = document.querySelector('[name="popup_form_del"]')
 // Создаем попап добавлении карточки
 
 const buttonAdd = document.querySelector(".profile__button_type_add");
-//const buttonCloseAdd = document.querySelector("#closeAdd");
+
 const urlInput = formAdd.querySelector('[name="url"]');
 const titleInput = formAdd.querySelector('[name="title"]');
 const avatarInput = formAva.querySelector('[name="avatar"]')
@@ -125,10 +202,10 @@ export const popupSelector = document.querySelector('.popup')
 export const popupImg = document.querySelector(".popup_type_image");
 export const popupImage = document.querySelector(".popup__image");
 export const figcaption = document.querySelector(".popup__figcaption");
-//const buttonCloseImg = document.querySelector("#closeImg");
+
 
 const cards = document.querySelector(".cards");
-//const section = new Section()
+
 export const templateCard = document.querySelector("#template");
 const popupSubmitButton = document.querySelector('[name="submitAdd"]')
 export const inputName = document.querySelector('[name="name"]')
@@ -273,8 +350,8 @@ formValidatoringDel.enableValidation();
 
 
 
-function createCard() {
-  const card = new Card( /*data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike, handleDeleteLike*/ );
-  cards.prepend(card.generateCard());
-
+function createCard(data) {
+  const card = new Card( data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike, handleDeleteLike)
+  
+  cards.append(card.generateCard());
 }
