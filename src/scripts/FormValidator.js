@@ -1,8 +1,9 @@
 export class FormValidator { 
 
-  constructor(selectors, formElement) { 
+  constructor(selectors, formElement,) { 
     this._formElement = formElement; 
     this._selectors = selectors; 
+
   } 
 
  _showError(inputElement) { 

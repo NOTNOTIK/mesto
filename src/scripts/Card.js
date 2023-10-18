@@ -1,11 +1,5 @@
-
-//import { userId, ownerId} from './index.js'
-
-import {handleCardClick} from './index.js';
-
-
 export class Card {
-  constructor(  title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleSetLike, handleDeleteLike} ) {
+  constructor(  title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleCardClick, handleSetLike, handleDeleteLike}, ) {
     this._title = title;
     this._src = src;
     this._ownerId = ownerId;
@@ -15,6 +9,7 @@ export class Card {
     this._handleDeleteClick = handleDeleteClick;
    this._handleSetLike = handleSetLike;
    this._handleDeleteLike = handleDeleteLike;
+   this._handleCardClick = handleCardClick;
   
   }
   _getTemplate() {
@@ -42,8 +37,8 @@ export class Card {
 
   }
   _setEventListeners() {
-    this._cardImage  = this._element.querySelector(".cards__img").addEventListener("click", () => {
-      handleCardClick({image: this._src, text: this._title})
+     this._element.querySelector(".cards__img").addEventListener("click", () => {
+      this._handleCardClick({image: this._src, text: this._title})
     });  
 
     this._likeButton = this._element.querySelector(".cards__like-button")
@@ -79,7 +74,7 @@ _checkLikedState(){
 
  
   makeLike  ()  {
-    this._likeNumber.textContent = this._likes.length;
+    this._likeNumber.textContent = this._likeNumber.textContent;
     this._likeButton.classList.toggle('cards__like-button_active');
     return this._likes.length
 }

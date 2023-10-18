@@ -5,7 +5,7 @@ this._renderer = renderer;
 this._container = document.querySelector('cards');
   }
   renderItems(){
-    this._renderedItems?.forEach((item) => {
+    this._renderedItems.forEach((item) => {
         this._renderer(item);
       });
   }
