@@ -1,11 +1,16 @@
 export class Card {
-  constructor(  title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleCardClick, handleSetLike, handleDeleteLike}, ) {
-    this._title = title;
-    this._src = src;
-    this._ownerId = ownerId;
+  constructor({data, handleDeleteClick, handleCardClick, handleSetLike, handleDeleteLike}, templateSelector, userId ){//title, src,  ownerId, userId, cardId, likes,{ handleDeleteClick, handleCardClick, handleSetLike, handleDeleteLike}, ) {
+    this._data = data;
+    this._templateSelector = templateSelector;
+    this._title = data.name;
+    this._src = data.link;
+    //this._ownerId = data.owner._id
+    this._cardId = data._id
+    this._likes = data.likes
+    //this._ownerId = ownerId;
     this._userId = userId;
-    this._cardId = cardId;
-    this._likes = likes;
+    //this._cardId = cardId;
+    //this._likes = likes;
     this._handleDeleteClick = handleDeleteClick;
    this._handleSetLike = handleSetLike;
    this._handleDeleteLike = handleDeleteLike;
@@ -14,7 +19,7 @@ export class Card {
   
   }
   _getTemplate() {
-    const cardElement = document.querySelector('#template').content.querySelector(".cards__item").cloneNode(true); 
+    const cardElement = document.querySelector(this._templateSelector).content.querySelector(".cards__item").cloneNode(true); 
     
   return cardElement; 
 
@@ -31,7 +36,7 @@ export class Card {
     this._cardImage.alt = this._title;
     this._likeNumber = this._element.querySelector('.cards__like-number');
     this._likeNumber.textContent = this._likes.length;
-    if(this._userId !== this._ownerId){
+    if(this._useId !== this._ownerId){
       this._element.querySelector('.cards__del').remove()
     }
      
@@ -76,8 +81,8 @@ _checkLikedState(){
 }
 
  
-  makeLike  (data)  {
-    this._likes = data.likes
+  makeLike  ()  {
+   // this._likes = data.likes
     this._likeNumber.textContent = this._likes.length;
     this._likeButton.classList.toggle('cards__like-button_active');
     return this._likes.length

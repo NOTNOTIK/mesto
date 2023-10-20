@@ -29,7 +29,7 @@ export const api = new Api(apiConfig);
  let userId = 0;
  let cardId = 0;
  
- 
+ //data.name,  data.link,  ownerId, userId, cardId, likes,
  let likes = []
  const popupDelete = new PopupDelete({
   selector: '.popup_type_del',
@@ -37,28 +37,17 @@ export const api = new Api(apiConfig);
  popupDelete.setEventListeners()
 
 
- 
+ const cardsContainer = new Section({
+  renderer: (card) => {
+     cardsContainer.addItem(createCard(card))
+  },
+}, cards);
 
-
+ function createCard(data){
  
- 
- Promise.all([api.getUserApi(), api.getAllTodos()])
- .then(([item, data]) => {
-  userId = item._id
-  userInfo.setUserInfo(item);
-  userInfo.setAvatar(item);
- 
-  
-   data.forEach((data) => {
-     ownerId = data.owner._id
-     cardId = data._id
-     likes = data.likes
-     
-     
-     
-     const card = new Card(data.name,  data.link,  ownerId, userId, cardId, likes, {
+     const card = new Card({
+      data,
       handleDeleteClick: () => {
-    
         popupDelete.open();
         popupDelete.submitCallback(() => {
           api.deleteCard(card.getId())
@@ -70,7 +59,6 @@ export const api = new Api(apiConfig);
         console.log(`deleteCard - ошибка: ${err}`);
     })
         })
-        
      },
      handleSetLike: () => {
       api.setLike(card.getId())
@@ -83,7 +71,6 @@ export const api = new Api(apiConfig);
               console.log(`makeLike - ошибка: ${err}`);
           })
   },
-  
   handleDeleteLike: () => {
     api.deleteLike(card.getId())
     .then((cardId) =>{
@@ -94,86 +81,38 @@ export const api = new Api(apiConfig);
       console.log(`deleteLike - ошибка: ${err}`);
   })
   }, 
-  handleCardClick: (data) => {
-    popupWithImage.open(data);
+  handleCardClick: (name, link) => {
+    popupWithImage.open(name, link);
   }
+ 
+      },'#template', userId)
+        //cards.prepend(card.generateCard());
+      //cardsContainer.addItem()
+    cards.prepend(card.generateCard());
+   return card.generateCard()
+ }
 
-      })
 
-    cards.append(card.generateCard());
+ 
+ 
+ Promise.all([api.getUserApi(), api.getAllTodos()])
+ .then(([item, data]) => {
+  userId = item._id
+  userInfo.setUserInfo(item);
+  userInfo.setAvatar(item);
+   data.forEach((data) => {
+     ownerId = data.owner._id
+     cardId = data._id
+     likes = data.likes
+     
+     createCard(data)
 
    }
    )
    
    })
    
- 
 
-
-/*function createCard(data){
- 
-    
-  
-  data.forEach((data) => {
-    ownerId = data.owner._id
-    cardId = data._id
-    likes = data.likes
-    const card = new Card(data.name,  data.link,  ownerId, userId, cardId, likes, {
-     handleDeleteClick: () => {
-   
-       popupDelete.open();
-       popupDelete.submitCallback(() => {
-         api.deleteCard(card.getId())
-         .then(() => {
-         card.removeCard();
-         popupDelete.close();
-     })
-     .catch((err) => {
-       console.log(`deleteCard - ошибка: ${err}`);
-   })
-       })
-       
-    },
-    handleSetLike: () => {
-     api.setLike(card.getId())
-         .then((cardId) => {
-             card.makeLike(cardId);
-             console.log(likes);
-             
-         })
-         .catch((err) => {
-             console.log(`makeLike - ошибка: ${err}`);
-         })
- },
- 
- handleDeleteLike: () => {
-   api.deleteLike(card.getId())
-   .then((cardId) =>{
-     card.makeLike(cardId);
-     console.log(card.getId())
-   }) 
-   .catch((err) => {
-     console.log(`deleteLike - ошибка: ${err}`);
- })
- }, 
- handleCardClick: (data) => {
-   popupWithImage.open(data);
- }
-
-     })
-
-   cards.append(card.generateCard());
-
-  }
-  )
-cards.append(card.generateCard());
-}
-
-/*const cardsContainer = new Section({
-  renderer: (item) => {
-      cardsContainer.addItem(createCard(item))
-  },
-}, cards);*/
 
 
  
@@ -350,8 +289,8 @@ formValidatoringDel.enableValidation();
 
 
 
-function createCard(data) {
+/*function createCard(data) {
   const card = new Card( data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike, handleDeleteLike)
   
   cards.append(card.generateCard());
-}
+}*/

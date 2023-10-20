@@ -3,7 +3,8 @@ export class FormValidator {
   constructor(selectors, formElement,) { 
     this._formElement = formElement; 
     this._selectors = selectors; 
-
+    this._inputsList = this._formElement.querySelectorAll(this._selectors.inputSelector); 
+    this._submitButtonElement = this._formElement.querySelector(this._selectors.submitButtonSelector); 
   } 
 
  _showError(inputElement) { 
@@ -46,8 +47,7 @@ export class FormValidator {
   }  
 
 _setEventListener() { 
-  this._inputsList = this._formElement.querySelectorAll(this._selectors.inputSelector); 
-  this._submitButtonElement = this._formElement.querySelector(this._selectors.submitButtonSelector); 
+
 
   this._toggleButtonState(); 
   this._formElement.addEventListener('submit', (event) => { 
