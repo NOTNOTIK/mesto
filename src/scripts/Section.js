@@ -10,9 +10,11 @@ this._container = document.querySelector('cards');
       });
   }
   addItem(element){
-    this._container.append(element);
+    this._container.prepend(element);
   }
+
 }
+
 /*export class Section {
   constructor({ renderer }, container) {
       this._renderer = renderer;

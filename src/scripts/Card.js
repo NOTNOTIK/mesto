@@ -4,7 +4,7 @@ export class Card {
     this._templateSelector = templateSelector;
     this._title = data.name;
     this._src = data.link;
-    //this._ownerId = data.owner._id
+    this._ownerId = data.owner._id
     this._cardId = data._id
     this._likes = data.likes
     //this._ownerId = ownerId;
@@ -36,9 +36,11 @@ export class Card {
     this._cardImage.alt = this._title;
     this._likeNumber = this._element.querySelector('.cards__like-number');
     this._likeNumber.textContent = this._likes.length;
-    if(this._useId !== this._ownerId){
-      this._element.querySelector('.cards__del').remove()
-    }
+    if(this._userId !== this._ownerId){ 
+
+      this._element.querySelector('.cards__del').remove() 
+
+    } 
      
    
     return this._element;

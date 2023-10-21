@@ -38,8 +38,8 @@ export const api = new Api(apiConfig);
 
 
  const cardsContainer = new Section({
-  renderer: (card) => {
-     cardsContainer.addItem(createCard(card))
+  renderer: (item) => {
+      cardsContainer.addItem(createCard(item))
   },
 }, cards);
 
@@ -47,6 +47,9 @@ export const api = new Api(apiConfig);
  
      const card = new Card({
       data,
+      handleCardClick: (name, link) => {
+        popupWithImage.open(name, link);
+      },
       handleDeleteClick: () => {
         popupDelete.open();
         popupDelete.submitCallback(() => {
@@ -81,12 +84,10 @@ export const api = new Api(apiConfig);
       console.log(`deleteLike - ошибка: ${err}`);
   })
   }, 
-  handleCardClick: (name, link) => {
-    popupWithImage.open(name, link);
-  }
  
-      },'#template', userId)
-        //cards.prepend(card.generateCard());
+ 
+      },'.template', userId)
+        //cardsContainer.renderItems(cards);
       //cardsContainer.addItem()
     cards.prepend(card.generateCard());
    return card.generateCard()
@@ -100,13 +101,13 @@ export const api = new Api(apiConfig);
   userId = item._id
   userInfo.setUserInfo(item);
   userInfo.setAvatar(item);
+  //cardsContainer.renderItems(cards);
    data.forEach((data) => {
      ownerId = data.owner._id
      cardId = data._id
      likes = data.likes
-     
+    // cardsContainer.renderItems(data);
      createCard(data)
-
    }
    )
    
@@ -218,8 +219,8 @@ function submitCard(){
   api.createCard({
     name: titleInput.value,
     link: urlInput.value,
-  }).then ((data) => {
-    createCard(data)
+  }).then ((res) => {
+    createCard(res)
     popupFormCard.close();
   })
   .finally(() =>{
