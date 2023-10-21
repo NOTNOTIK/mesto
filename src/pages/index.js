@@ -93,6 +93,7 @@ export const api = new Api(apiConfig);
       },'.template', userId)
         
       cardsContainer.addItem(card.generateCard())
+      
     
  }
 
