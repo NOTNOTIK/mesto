@@ -45,7 +45,7 @@ export class Card {
   }
   _setEventListeners() {
      this._element.querySelector(".cards__img").addEventListener("click", () => {
-      this._handleCardClick({image: this._src, text: this._title})
+      this._handleCardClick({image: this._link, text: this._name})
     });  
 
     this._likeButton = this._element.querySelector(".cards__like-button")

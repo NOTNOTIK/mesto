@@ -41,7 +41,7 @@ export const api = new Api(apiConfig);
   renderer: (item) => {
       cardsContainer.addItem(createCard(item))
   },
-});
+}, cards);
 
  function createCard(data){
  
@@ -178,10 +178,7 @@ const userInfo = new UserInfo({
 
 const popupEditProfile = new PopupWithForm({
   selector: '.popup_type_edit', 
-  submit: submitEdit, /*(name, about) => {
-    userInfo.setUserInfo(name, about);
-    popupEditProfile.close();
-  },*/
+  submit: submitEdit, 
 });
 //открытие попапа информации о себе
 buttonEdit.addEventListener("click", () => {
@@ -230,7 +227,9 @@ function submitCard(){
     name: titleInput.value,
     link: urlInput.value,
   }).then ((res) => {
-    createCard(res.response)
+    createCard(res)
+    //должно было сработать, но не получилось(
+    //cardsContainer.newItem(createCard(res)) 
     popupFormCard.close();
   })
   .finally(() =>{
