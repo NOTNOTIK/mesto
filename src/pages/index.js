@@ -41,7 +41,7 @@ export const api = new Api(apiConfig);
   renderer: (item) => {
       cardsContainer.addItem(createCard(item))
   },
-}, cards);
+});
 
  function createCard(data){
  
@@ -53,6 +53,7 @@ export const api = new Api(apiConfig);
       handleDeleteClick: () => {
         popupDelete.open();
         popupDelete.submitCallback(() => {
+          popupSubmitDel.textContent = 'Подождите...'
           api.deleteCard(card.getId())
           .then(() => {
           card.removeCard();
@@ -61,6 +62,9 @@ export const api = new Api(apiConfig);
       .catch((err) => {
         console.log(`deleteCard - ошибка: ${err}`);
     })
+    .finally(() => {
+      popupSubmitDel.textContent = 'Удалить'
+    });
         })
      },
      handleSetLike: () => {
@@ -87,10 +91,9 @@ export const api = new Api(apiConfig);
  
  
       },'.template', userId)
-        //cardsContainer.renderItems(cards);
-      //cardsContainer.addItem()
-    cards.prepend(card.generateCard());
-   return card.generateCard()
+        
+      cardsContainer.addItem(card.generateCard())
+    
  }
 
 
@@ -101,12 +104,12 @@ export const api = new Api(apiConfig);
   userId = item._id
   userInfo.setUserInfo(item);
   userInfo.setAvatar(item);
-  //cardsContainer.renderItems(cards);
+
    data.forEach((data) => {
      ownerId = data.owner._id
      cardId = data._id
      likes = data.likes
-    // cardsContainer.renderItems(data);
+    
      createCard(data)
    }
    )
@@ -148,6 +151,9 @@ const cards = document.querySelector(".cards");
 
 export const templateCard = document.querySelector("#template");
 const popupSubmitButton = document.querySelector('[name="submitAdd"]')
+const popupSubmitAva= document.querySelector('[name="submitAva"]')
+const popupSubmitEdit= document.querySelector('[name="submitEdit"]')
+const popupSubmitDel= document.querySelector('[name="submitDel"]')
 export const inputName = document.querySelector('[name="name"]')
 export const inputAbout = document.querySelector('[name="about"]')
 
@@ -185,18 +191,21 @@ buttonEdit.addEventListener("click", () => {
 
 function submitEdit (){
 
-  popupSubmitButton.textContent = 'Подождите...'
+  popupSubmitEdit.textContent = 'Подождите...'
 
   api.setUserApi({
     name: inputName.value,
     about: inputAbout.value,
   }).then((name, about) => {
-    
     userInfo.setUserInfo(name, about);
     popupEditProfile.close();
   })
+  .catch((err) => {
+    console.log(`setUserApi - ошибка: ${err}`);
+  })
   .finally((data) =>{
    console.log(data)
+   popupSubmitEdit.textContent = 'Сохранить'
   })
 }
 
@@ -220,7 +229,7 @@ function submitCard(){
     name: titleInput.value,
     link: urlInput.value,
   }).then ((res) => {
-    createCard(res)
+    createCard(res.response)
     popupFormCard.close();
   })
   .finally(() =>{
@@ -228,7 +237,7 @@ function submitCard(){
     titleInput.value = ''
     urlInput.value = ''
   })
-  ;
+  
   formAdd.reset();
  
 }
@@ -246,7 +255,7 @@ buttonAva.addEventListener('click', () => {
 
 function submitAva(){
 
-  popupSubmitButton.textContent = 'Подождите...'
+  popupSubmitAva.textContent = 'Подождите...'
 
   api.setUserAvatar({
     avatar: avatarInput.value,
@@ -256,7 +265,7 @@ function submitAva(){
     popupFormAvatar.close();
   })
   .finally(() =>{
-    popupSubmitButton.textContent = 'Обновить';
+    popupSubmitAva.textContent = 'Сменить';
     avatarInput.value = '';
   })
 
