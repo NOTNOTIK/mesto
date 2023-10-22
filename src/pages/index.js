@@ -37,14 +37,9 @@ export const api = new Api(apiConfig);
  popupDelete.setEventListeners()
 
 
- const cardsContainer = new Section({
-  renderer: (item) => {
-      cardsContainer.addItem(createCard(item))
-  },
-}, cards);
+ 
 
  function createCard(data){
- 
      const card = new Card({
       data,
       handleCardClick: (name, link) => {
@@ -88,13 +83,9 @@ export const api = new Api(apiConfig);
       console.log(`deleteLike - ошибка: ${err}`);
   })
   }, 
- 
- 
-      },'.template', userId)
-        
-      cardsContainer.addItem(card.generateCard())
-      
-    
+      },'.template', userId)   
+    //cardsContainer.addItem(card.generateCard())  
+    return card.generateCard();
  }
 
 
@@ -111,17 +102,21 @@ export const api = new Api(apiConfig);
      cardId = data._id
      likes = data.likes
     
-     createCard(data)
+     //createCard(data)
+cardsContainer.addItem(createCard(data))
+     
    }
    )
    
    })
    
 
-
-
- 
-
+   
+   const cardsContainer = new Section({
+    renderer: (item) => {
+        cardsContainer.addItem(createCard(item))
+    },
+   }, cards);
 
 
 
@@ -219,17 +214,15 @@ buttonAdd.addEventListener('click', () => {
   popupFormCard.open();
 });
 
+//console.log(cardsContainer.addItem())
 function submitCard(){
-  console.log('sadasd')
   popupSubmitButton.textContent = 'Подождите...'
 
   api.createCard({
     name: titleInput.value,
     link: urlInput.value,
   }).then ((res) => {
-    createCard(res)
-    //должно было сработать, но не получилось(
-    //cardsContainer.newItem(createCard(res)) 
+    cardsContainer.addNewItem(createCard(res));
     popupFormCard.close();
   })
   .finally(() =>{
@@ -299,8 +292,4 @@ formValidatoringDel.enableValidation();
 
 
 
-/*function createCard(data) {
-  const card = new Card( data.name, data.link, data.owner, likes, userId, cardId, handleDeleteClick, handleSetLike, handleDeleteLike)
-  
-  cards.append(card.generateCard());
-}*/
+
